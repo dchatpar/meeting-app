@@ -1,132 +1,58 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
-import { checkAuth, login as loginService, logout as logoutService, signup as signupService, checkAuth as checkAuthService } from "../Store/useAuthStore";
-import { useNavigate } from "react-router-dom"; // Import the useNavigate hook
-
+import React, { createContext, useState, useEffect } from "react";
 
 export const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const navigate = useNavigate();
+    // Default user - no authentication required
+    const [user, setUser] = useState({
+        _id: "demo-user",
+        username: "Demo User",
+        email: "demo@example.com",
+        role: "admin"
+    });
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        const verifyUser = async () => {
-            setLoading(true);
-            try {
-                const response = await checkAuthService();
-                console.log("Response from checkAuth:", response);
-                if (response?.data?.authenticated) {
-                    console.log("Authenticated user:", response.data.user);
-                    setUser(response?.data?.user)
-                    console.log("user is set to ", user);
-                    setIsAuthenticated(true);
-                } else {
-                    setUser(null);
-                    setIsAuthenticated(false);
-                }
-            } catch (error) {
-                console.error("Error verifying user:", error);
-                setUser(null);
-                setIsAuthenticated(false);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        verifyUser();
-    }, []);
-    useEffect(() => {
-        console.log("User state updated:", user);
-    }, [user, isAuthenticated]);
-
-    // Login function
     const login = async (credentials) => {
-        setLoading(true);
-        try {
-            const response = await loginService(credentials);
-            if (response.success) {
-                alert(response.message);
-                setUser(response.user);
-                setIsAuthenticated(true);
-                if (response.user && response.user._id) {
-                    localStorage.setItem("userId", response.user._id);
-                }
-                return;
-            }
-            alert(response.message);
-
-
-
-
-        } catch (error) {
-            console.log(error)
-            alert(error)
-            console.error("Login failed:", error);
-            setError("Login failed. Please try again.");
-            throw error;
-        }
-        finally {
-            setLoading(false);
-        }
+        // Mock login - just set the user
+        setUser({
+            _id: "demo-user",
+            username: credentials.username || "Demo User",
+            email: credentials.email || "demo@example.com",
+            role: "admin"
+        });
+        setIsAuthenticated(true);
     };
 
-    // Logout function
     const logout = async () => {
-        setLoading(true);
-        try {
-            await logoutService();
-            setUser(null);
-            setIsAuthenticated(false);
-            alert("Logged out successfully")
-            navigate("/"); // Redirect to login after logout
-        } catch (error) {
-            console.error("Logout failed:", error);
-            alert("Failed to logout. Please try again.");
-        } finally {
-            setLoading(false);
-        }
+        setUser(null);
+        setIsAuthenticated(false);
     };
 
-    // Signup function
-    const signup = async (userData) => {
-        setLoading(true);
-        try {
-            const response = await signupService(userData);
-            setUser(response.data.user);
-            alert(response.message);
-            // setIsAuthenticated(true);
-        } catch (error) {
-            console.error("Signup failed:", error.message);
-            setError(error.message);
-            throw error;
-        } finally {
-            setLoading(false);
-        }
-    };
-    const checkAuth = async () => {
-        const response = await checkAuthService();
-        try {
-            if (response.success) {
-                setIsAuthenticated(true);
-                return;
-            }
-        } catch (error) {
-            setIsAuthenticated(false);
-            return;
-        } finally {
-            setLoading(false);
-        }
-
-
+    const signup = async (data) => {
+        // Mock signup - just set the user
+        setUser({
+            _id: "new-user",
+            username: data.username,
+            email: data.email,
+            role: data.role || "admin"
+        });
+        setIsAuthenticated(true);
     };
 
     return (
-        <UserContext.Provider value={{ user, signup, isAuthenticated, loading, error, login, logout, checkAuth }}>
+        <UserContext.Provider value={{ 
+            user, 
+            setUser,
+            isAuthenticated, 
+            loading,
+            login, 
+            logout,
+            signup 
+        }}>
             {children}
         </UserContext.Provider>
     );
 };
+
 export default UserProvider;

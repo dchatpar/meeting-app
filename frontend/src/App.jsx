@@ -5,10 +5,6 @@ import HomeLayout from "./Layout/HomeLayout.jsx";
 import Dashboard from "./Pages/Dashboard.jsx";
 import Meeting from "./Pages/Meeting.jsx";
 import Company from "./Pages/Company.jsx";
-import SignIn from "./Pages/SignIn.jsx";
-import SignUp from "./Pages/Signup.jsx";
-import ProtectedLogin from "./protectedRoutes/ProtectedLogin.jsx";
-import ProtectedAdmin from "./protectedRoutes/Admin.jsx";
 import DefaultPage from "./Pages/DefaultPage.jsx";
 import CreateEvent from "./Pages/CreateEvent.jsx";
 import EventDetail from "./Components/EventDetail.jsx";
@@ -20,29 +16,13 @@ import PartnerRequests from "./Pages/PartnerRequests.jsx";
 function App() {
   return (
     <Routes>
-      {/* Public routes (no protection) */}
+      {/* All routes are public - no authentication required */}
       <Route path="/" element={<HomeLayout />}>
-        <Route path="login" element={<SignIn />} />
-        <Route path="signup" element={<SignUp />} />
-      </Route>
-
-
-
-      {/* Protected routes */}
-      <Route
-        path="/"
-        element={
-          <ProtectedLogin>
-            <HomeLayout />
-          </ProtectedLogin>
-        }
-      >
-        <Route index element={<DefaultPage />} /> {/* Default route */}
-        <Route path="/event/:id" element={<Dashboard />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/event/update/:id" element={<UpdateEvent />} />
-        <Route path="dashboard" element={<DashboardStats />} />
+        <Route index element={<DashboardStats />} />
         <Route path="create" element={<CreateEvent />} />
+        <Route path="users" element={<Users />} />
+        <Route path="/event/:id" element={<Dashboard />} />
+        <Route path="/event/update/:id" element={<UpdateEvent />} />
         <Route path="/event/:id/meeting" element={<Meeting />} />
         <Route path="/event/:id/company" element={<Company />} />
         <Route path="/event/:id/partner-requests" element={<PartnerRequests />} />
