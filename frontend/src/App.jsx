@@ -23,10 +23,7 @@ function App() {
       {/* Public routes (no protection) */}
       <Route path="/" element={<HomeLayout />}>
         <Route path="login" element={<SignIn />} />
-
-        <Route path="signup" element={<ProtectedAdmin>
-          <SignUp />
-        </ProtectedAdmin>} />
+        <Route path="signup" element={<SignUp />} />
       </Route>
 
 
