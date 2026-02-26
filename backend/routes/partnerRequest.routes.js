@@ -8,14 +8,12 @@ import {
   getPartnerRequestById,
   deletePartnerRequest,
 } from "../controller/partnerRequest.controller.js";
-import { protectRoute } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-// All routes require authentication
-router.use(protectRoute);
+// All routes are public (no auth required)
 
-// Create a new partner request (admin only)
+// Create a new partner request
 router.post("/create", createPartnerRequest);
 
 // Get all partner requests (filtered by role)
@@ -33,7 +31,7 @@ router.put("/approve-partner", delegateApprovePartner);
 // Decline a partner (delegate)
 router.put("/decline-partner", delegateDeclinePartner);
 
-// Delete a partner request (admin only)
+// Delete a partner request
 router.delete("/:id", deletePartnerRequest);
 
 export default router;

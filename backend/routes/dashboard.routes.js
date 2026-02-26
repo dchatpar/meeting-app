@@ -6,15 +6,14 @@ import {
   getEventSlots,
   getStatusDistribution
 } from '../controller/dashboard.controller.js';
-import { protectRoute } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 
-// Get dashboard data - admin only
-router.get('/', protectRoute, getDashboardData);
-router.post('/users-slot/:eventId', protectRoute, getUsersListCompanywise);
-router.get('/companies/:eventId', protectRoute, getEventCompanies);
-router.get('/slots/:eventId', protectRoute, getEventSlots);
-router.get('/status-distribution/:eventId?', protectRoute, getStatusDistribution);
+// Get dashboard data - public (no auth required)
+router.get('/', getDashboardData);
+router.post('/users-slot/:eventId', getUsersListCompanywise);
+router.get('/companies/:eventId', getEventCompanies);
+router.get('/slots/:eventId', getEventSlots);
+router.get('/status-distribution/:eventId?', getStatusDistribution);
 
 export default router;

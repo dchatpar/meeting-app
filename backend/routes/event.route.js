@@ -1,7 +1,5 @@
 import express from 'express';
 import { createEvent, deleteEvent, getAllEvents, getEventById, getEventReport, getEventTitleList, updateEvent, uploadEventImage } from '../controller/event.controller.js';
-import { protectRoute } from '../middleware/auth.middleware.js';
-
 
 const router = express.Router();
 
@@ -9,13 +7,13 @@ const router = express.Router();
 router.post('/',uploadEventImage, createEvent);
 
 // Get all events
-router.get('/',protectRoute, getAllEvents);
+router.get('/', getAllEvents);
 
 // Get a single event by ID
-router.get('/event-list',protectRoute, getEventTitleList);
+router.get('/event-list', getEventTitleList);
 router.get('/:id', getEventById);
 
-router.get('/report/:id',protectRoute, getEventReport);
+router.get('/report/:id', getEventReport);
 
 // Delete an event by ID
 router.delete('/:id', deleteEvent);
