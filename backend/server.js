@@ -15,6 +15,7 @@ import dashboardRoutes from "./routes/dashboard.routes.js";
 import otpRoutes from "./routes/otp.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import partnerRequestRoutes from "./routes/partnerRequest.routes.js";
+import initRoutes from "./routes/init.routes.js";
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -69,6 +70,7 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/otp", otpRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/partner-request", partnerRequestRoutes);
+app.use("/api/auth", initRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 // app.use("/api/admin", adminRoutes);
 
