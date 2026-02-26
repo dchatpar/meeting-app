@@ -28,6 +28,7 @@ const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
       "https://meeting-app-beta-seven.vercel.app",
+      "https://frontend-six-lovat-48.vercel.app",
       "http://localhost:5173",
       "http://localhost:5174",
       "http://94.250.203.249:5174",
